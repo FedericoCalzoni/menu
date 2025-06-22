@@ -21,11 +21,7 @@
 </head>
 <body>
     <script>
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-        const iframeSrc = isIOS 
-            ? "https://docs.google.com/viewerng/viewer?url=https://federicocalzoni.github.io/menu/menu.pdf&embedded=true"
-            : "menu.pdf#toolbar=0&navpanes=0&scrollbar=1";
-
+        const iframeSrc = "https://docs.google.com/viewerng/viewer?url=https://federicocalzoni.github.io/menu/menu.pdf&embedded=true";
         document.write('<iframe src="' + iframeSrc + '"></iframe>');
     </script>
 </body>
