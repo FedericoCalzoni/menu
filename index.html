@@ -1,38 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>View PDF</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: sans-serif;
-      background: #f5f5f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .pdf-link {
-      background: #007bff;
-      color: #fff;
-      padding: 12px 24px;
-      text-decoration: none;
-      border-radius: 5px;
-      font-size: 18px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-      transition: background 0.3s ease;
-    }
-    .pdf-link:hover {
-      background: #0056b3;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .pdf-container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+        
+        .pdf-viewer {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+        
+        /* Fallback for browsers that don't support iframe PDF viewing */
+        .fallback {
+            display: none;
+            text-align: center;
+            padding: 50px 20px;
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .fallback a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 12px 24px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .fallback a:hover {
+            background: #007bff;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-  <a class="pdf-link" href="menu.pdf" target="_blank" rel="noopener noreferrer">
-    View Menu (PDF)
-  </a>
+    <div class="pdf-container">
+        <iframe 
+            class="pdf-viewer"
+            src="menu.pdf#toolbar=0&navpanes=0&scrollbar=1&zoom=100"
+            type="application/pdf"
+            allowfullscreen
+            webkitallowfullscreen
+            mozallowfullscreen>
+        </iframe>
+    </div>
+    
+    <div class="fallback" id="fallback">
+        <h2>PDF Viewer Not Supported</h2>
+        <p>Your browser doesn't support inline PDF viewing.</p>
+        <br>
+        <a href="menu.pdf" target="_blank">Open PDF in New Tab</a>
+    </div>
+
+    <script>
+        // Detect if PDF viewing is supported and show fallback if needed
+        const iframe = document.querySelector('.pdf-viewer');
+        const fallback = document.getElementById('fallback');
+        
+        // Check if the PDF loads successfully
+        iframe.onload = function() {
+            // PDF loaded successfully
+        };
+        
+        iframe.onerror = function() {
+            // Show fallback if iframe fails to load PDF
+            document.querySelector('.pdf-container').style.display = 'none';
+            fallback.style.display = 'flex';
+        };
+        
+        // Additional check for iOS devices
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        
+        if (isIOS) {
+            // iOS-specific handling - sometimes needs a slight delay
+            setTimeout(() => {
+                iframe.src = iframe.src; // Refresh the src to trigger load on iOS
+            }, 100);
+        }
+    </script>
 </body>
 </html>
